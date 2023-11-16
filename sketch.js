@@ -81,8 +81,7 @@ function draw() {
 }
 
 function resetPlayer() {
-  //ballx = 30; bally = 50;
-  ballx = 270; bally = 250;
+  ballx = 30; bally = 50;
   velx = 0;   vely = 0;
 }
 
