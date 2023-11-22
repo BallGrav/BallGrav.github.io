@@ -1,1 +1,18 @@
 new Wall(0,40,20,300)
+new Wall(320,40,20,300)
+new Wall(0,320,340,20)
+new Wall(0,20,340,20)
+
+danner L'et
+new Wall(60,240,80,20)
+new Wall(60,100,20,140)
+
+danner 2-tallet
+new Wall(180,120,20,20)
+new Wall(200,100,60,20)
+new Wall(260,120,20,60)
+new Wall(200,180,60,20)
+new Wall(180,200,20,60)
+new Wall(200,240,80,20)
+
+new Hole(70,90)

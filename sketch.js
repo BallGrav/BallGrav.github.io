@@ -11,11 +11,17 @@ let goal;
 let score = 0;
 
 let device = -1;
-let level = 0;
+let scaleing = 1
+let level = 0; //REMEMBER TO CHANGE BACK TO 0
 
 function setup() {
   changeLevel(1);
-  createCanvas(window.innerWidth,window.innerHeight);
+  createCanvas(window.innerWidth,window.innerWidth);
+  if(window.innerHeight>window.innerWidth) {
+    scaleing = window.innerWidth/360
+  }else {
+    scaleing = window.innerHeight/360
+  }
   window.addEventListener("devicemotion", phoneMoved);
   resetPlayer();
 }
@@ -23,14 +29,14 @@ function setup() {
 function draw() {
   background(220);
   
-  velx*=0.99;
-  vely*=0.99;
+  velx*=0.98;
+  vely*=0.98;
   ballx+=velx;
   bally+=vely;
   
   noStroke();
   fill(122, 76, 34);
-  rect(20,40,300,280);
+  rect(20*scaleing,40*scaleing,300*scaleing,280*scaleing);
   
   walls.forEach(function(wall){
     wall.draw();
@@ -73,16 +79,48 @@ function draw() {
   }
   
   fill(75);
-  circle(ballx,bally,16);
+  circle(ballx*scaleing,bally*scaleing,16*scaleing);
   //text(txt,100,100);
-  textSize(20);
+  textSize(20*scaleing);
   fill(0);
-  text("Score: "+score,20,18);
+  text("Score: "+score,20*scaleing,18*scaleing);
 }
 
 function resetPlayer() {
   ballx = 30; bally = 50;
   velx = 0;   vely = 0;
+}
+
+var isFullscreen = false
+function changeScreenState() {
+  if(isFullscreen) {
+    closeFullscreen();
+    isFullscreen = false;
+  }else {
+    openFullscreen();
+    isFullscreen = true;
+  }
+}
+
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();  
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
+}
+
+var elem = document.documentElement;
+function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();  
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
+  }
 }
 
 function requestMotionPermission() {
@@ -126,6 +164,9 @@ function changeLevel(change) {
   holes = []
   goal = null;
   level+=change;
+  if(level>2) {
+    level = 1;
+  }
   loadStrings("level"+level+".txt",loadLevel);
 }
 
@@ -165,7 +206,7 @@ class GameObject {
 class Wall extends GameObject {
   draw() {
     fill(54, 28, 5);
-    rect(this.x,this.y,this.w,this.h);
+    rect(this.x*scaleing,this.y*scaleing,this.w*scaleing,this.h*scaleing);
   }
   
   isColliding(xIn, yIn, wIn, hIn) {
@@ -181,7 +222,7 @@ class ScoreBall extends GameObject {
   
   draw() {
     fill(252, 215, 0)
-    circle(this.x,this.y,8);
+    circle(this.x*scaleing,this.y*scaleing,8*scaleing);
   }
 }
 
@@ -192,7 +233,7 @@ class Hole extends GameObject {
   
   draw() {
     fill(0)
-    circle(this.x,this.y,16);
+    circle(this.x*scaleing,this.y*scaleing,16*scaleing);
   }
 }
 
@@ -203,6 +244,6 @@ class Goal extends GameObject {
   
   draw() {
     fill(52, 181, 33)
-    circle(this.x,this.y,16);
+    circle(this.x*scaleing,this.y*scaleing,16*scaleing);
   }
 }
